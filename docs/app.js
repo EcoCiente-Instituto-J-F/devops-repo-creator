@@ -34,7 +34,7 @@
     /^[a-z_][a-z0-9_]*(?:\.[a-z_][a-z0-9_]*)*$/;
 
   const SPRING_BOOT_VERSION = "4.1.0";
-  const SPRING_JAVA_VERSION = "17";
+  const SPRING_JAVA_VERSION = "19";
 
   const infoContent = {
     name: {
@@ -946,8 +946,10 @@
             `Group ID: ${payload.springBoot.groupId}`,
             `Artifact ID: ${payload.springBoot.artifactId}`,
             `Package: ${payload.springBoot.packageName}`,
+            "Build: Gradle",
             "Packaging: Jar",
             `Java: ${SPRING_JAVA_VERSION}`,
+            "DevOps: CI, Docker, Docker Compose e Kubernetes",
             "Dependências: Lombok, Spring Boot DevTools e Spring Web"
           ].join("\n")
         : "";
@@ -1221,8 +1223,7 @@
 
         data.springBoot?.requested
           ? data.springBoot.configured
-            ? `<strong>Spring Boot:</strong> ${data.springBoot.config.bootVersion}, Java ${data.springBoot.config.javaVersion}, Maven/Jar — configurado com sucesso`
-            : `<strong>Spring Boot:</strong> solicitado, mas não foi possível concluir — ${data.springBoot.reason || "verifique os avisos"}`
+          ? `<strong>Spring Boot:</strong> ${data.springBoot.config.bootVersion}, Java ${data.springBoot.config.javaVersion}, Gradle/Jar — configurado com sucesso`            : `<strong>Spring Boot:</strong> solicitado, mas não foi possível concluir — ${data.springBoot.reason || "verifique os avisos"}`
           : `<strong>Spring Boot:</strong> não solicitado`,
 
         data.ruleset.applied

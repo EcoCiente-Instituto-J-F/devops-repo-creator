@@ -25,6 +25,9 @@ import {
   SPRING_BOOT_DEFAULTS
 } from "../../lib/spring-initializr.js";
 
+import {
+  generateDevOpsFiles
+} from "../../lib/devops-files.js";
 
 const NAME_REGEX =
   /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -366,23 +369,37 @@ export default async function handler(
       null;
 
 
-    if (
-      payload.springBoot.enabled
-    ) {
-      springProject =
-        await generateSpringBootProject({
+    if (payload.springBoot.enabled) {
+      const generatedSpringProject = await generateSpringBootProject({
           groupId:
             payload.springBoot.groupId,
-
+      
           artifactId:
             payload.springBoot.artifactId,
-
+      
           packageName:
             payload.springBoot.packageName,
-
+      
           description:
             payload.description
         });
+      
+      
+      const devOpsFiles =
+        generateDevOpsFiles({
+          artifactId:
+            payload.springBoot.artifactId
+        });
+      
+      
+      springProject = {
+        ...generatedSpringProject,
+      
+        files: [
+          ...generatedSpringProject.files,
+          ...devOpsFiles
+        ]
+      };
     }
 
 
@@ -665,7 +682,7 @@ export default async function handler(
         "Spring Initializr"
       ) ||
       message.includes(
-        "projeto Maven válido"
+        "projeto Gradle válido"
       )
     ) {
       return res
