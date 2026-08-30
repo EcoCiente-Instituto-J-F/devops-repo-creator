@@ -1,0 +1,13 @@
+{
+  "name": "ecociente-repo-creator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Frontend e backend para criação padronizada de repositórios da organização EcoCiente.",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  }
+}

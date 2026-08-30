@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="theme-color"
+    content="#064E3B"
+  />
+
+  <title>
+    Criador de Repositórios — EcoCiente
+  </title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/logo-ecociente.png"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  />
+</head>
+
+<body>
+
+  <div class="page-shell">
+
+    <header class="topbar">
+
+      <div class="brand-mini">
+
+        <img
+          src="assets/logo-ecociente.png"
+          alt="Logo EcoCiente"
+        />
+
+        <span>
+          EcoCiente
+        </span>
+
+      </div>
+
+      <div
+        id="authArea"
+        class="auth-area"
+      >
+
+        <span
+          id="userStatus"
+          class="user-status"
+        >
+          Não autenticado
+        </span>
+
+        <button
+          id="loginButton"
+          class="btn btn-secondary"
+          type="button"
+        >
+          Entrar com GitHub
+        </button>
+
+        <button
+          id="logoutButton"
+          class="btn btn-ghost hidden"
+          type="button"
+        >
+          Sair
+        </button>
+
+      </div>
+
+    </header>
+
+    <main class="main-content">
+
+      <section
+        class="creator-card"
+        aria-labelledby="pageTitle"
+      >
+
+        <div class="hero">
+
+          <img
+            class="hero-logo"
+            src="assets/logo-ecociente.png"
+            alt="Logo EcoCiente"
+          />
+
+          <div>
+
+            <p class="eyebrow">
+              PADRÃO ECOCIENTE
+            </p>
+
+            <h1 id="pageTitle">
+              Criador de Repositórios
+            </h1>
+
+            <p class="subtitle">
+              Crie um novo repositório já preparado
+              com o template oficial do EcoCiente.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div
+          id="authNotice"
+          class="notice notice-auth"
+        >
+
+          Para criar repositórios, entre com sua
+          conta do GitHub.
+
+          Apenas membros ativos da organização
+
+          <strong>
+            EcoCiente-Instituto-J-F
+          </strong>
+
+          podem usar esta ferramenta.
+
+        </div>
+
+        <form
+          id="repoForm"
+          class="repo-form"
+          novalidate
+        >
+
+          <div class="field-group">
+
+            <div class="label-row">
+
+              <label for="repoName">
+                Nome do repositório
+              </label>
+
+              <button
+                class="info-button"
+                type="button"
+                data-info="name"
+                aria-label="Ver padrão de nomes e prefixos"
+                title="Ver padrão de nomes e prefixos"
+              >
+
+                <img
+                  src="assets/info.png"
+                  alt=""
+                />
+
+              </button>
+
+            </div>
+
+            <input
+              id="repoName"
+              name="repoName"
+              type="text"
+              autocomplete="off"
+              placeholder="Ex.: ds-cadastro-api"
+              maxlength="100"
+              required
+            />
+
+            <p class="field-hint">
+              Recomendamos seguir o padrão
+              &lt;matéria&gt;-&lt;nome-do-repositório&gt;.
+            </p>
+
+            <p
+              id="nameWarning"
+              class="field-hint hidden"
+              aria-live="polite"
+            ></p>
+
+            <p
+              id="nameError"
+              class="field-error"
+              aria-live="polite"
+            ></p>
+
+          </div>
+
+          <div class="field-group">
+
+            <div class="label-row">
+
+              <label for="repoDescription">
+                Descrição
+              </label>
+
+            </div>
+
+            <textarea
+              id="repoDescription"
+              name="repoDescription"
+              rows="4"
+              maxlength="350"
+              placeholder="Descreva de forma objetiva a finalidade do repositório."
+              required
+            ></textarea>
+
+            <div class="field-meta">
+
+              <span>
+                Essa descrição aparecerá na página
+                do repositório.
+              </span>
+
+              <span id="descriptionCounter">
+                0/350
+              </span>
+
+            </div>
+
+            <p
+              id="descriptionError"
+              class="field-error"
+              aria-live="polite"
+            ></p>
+
+          </div>
+
+          <fieldset
+            class="field-group visibility-group"
+          >
+
+            <div class="label-row">
+
+              <legend>
+                Visibilidade
+              </legend>
+
+              <button
+                class="info-button"
+                type="button"
+                data-info="visibility"
+                aria-label="Informações sobre visibilidade e proteção da main"
+                title="Informações sobre visibilidade"
+              >
+
+                <img
+                  src="assets/info.png"
+                  alt=""
+                />
+
+              </button>
+
+            </div>
+
+            <div class="visibility-options">
+
+              <label
+                class="visibility-card"
+                for="visibilityPublic"
+              >
+
+                <input
+                  id="visibilityPublic"
+                  name="visibility"
+                  type="radio"
+                  value="public"
+                  checked
+                />
+
+                <span
+                  class="radio-dot"
+                  aria-hidden="true"
+                ></span>
+
+                <span>
+
+                  <strong>
+                    Público
+                  </strong>
+
+                  <small>
+                    Recebe automaticamente a
+                    ruleset “Proteção Main”.
+                  </small>
+
+                </span>
+
+              </label>
+
+              <label
+                class="visibility-card"
+                for="visibilityPrivate"
+              >
+
+                <input
+                  id="visibilityPrivate"
+                  name="visibility"
+                  type="radio"
+                  value="private"
+                />
+
+                <span
+                  class="radio-dot"
+                  aria-hidden="true"
+                ></span>
+
+                <span>
+
+                  <strong>
+                    Privado
+                  </strong>
+
+                  <small>
+                    A ferramenta também tentará aplicar
+                    a “Proteção Main”.
+                  </small>
+
+                </span>
+
+              </label>
+
+            </div>
+
+            <div
+              id="privateWarning"
+              class="notice notice-warning hidden"
+            >
+
+              <strong>
+                Atenção:
+              </strong>
+
+              a ferramenta tentará aplicar a proteção
+              da branch
+
+              <code>
+                main
+              </code>,
+
+              mas a disponibilidade em repositórios
+              privados depende do plano e das políticas
+              da organização.
+
+              Se o GitHub não permitir, o repositório
+              será criado normalmente e você receberá
+              um aviso.
+
+              Em caso de dúvida, contate o
+
+              <strong>
+                Mestre DevOps Julio
+              </strong>.
+
+            </div>
+
+          </fieldset>
+
+          <fieldset
+            class="field-group spring-group"
+          >
+
+            <div class="label-row">
+
+              <legend>
+                É uma API (Spring Boot)?
+              </legend>
+
+            </div>
+
+            <div class="visibility-options spring-choice-options">
+
+              <label
+                class="visibility-card"
+                for="springBootNo"
+              >
+
+                <input
+                  id="springBootNo"
+                  name="springBoot"
+                  type="radio"
+                  value="no"
+                  checked
+                />
+
+                <span
+                  class="radio-dot"
+                  aria-hidden="true"
+                ></span>
+
+                <span>
+
+                  <strong>
+                    Não
+                  </strong>
+
+                  <small>
+                    Cria somente com o template padrão do EcoCiente.
+                  </small>
+
+                </span>
+
+              </label>
+
+              <label
+                class="visibility-card"
+                for="springBootYes"
+              >
+
+                <input
+                  id="springBootYes"
+                  name="springBoot"
+                  type="radio"
+                  value="yes"
+                />
+
+                <span
+                  class="radio-dot"
+                  aria-hidden="true"
+                ></span>
+
+                <span>
+
+                  <strong>
+                    Sim
+                  </strong>
+
+                  <small>
+                    Adiciona um projeto Spring Boot Maven pronto para uso.
+                  </small>
+
+                </span>
+
+              </label>
+
+            </div>
+
+            <div
+              id="springBootConfig"
+              class="spring-config hidden"
+            >
+
+              <div class="spring-fixed-grid">
+
+                <div class="spring-fixed-item">
+                  <span>Spring Boot</span>
+                  <strong>4.1.0</strong>
+                </div>
+
+                <div class="spring-fixed-item">
+                  <span>Linguagem</span>
+                  <strong>Java</strong>
+                </div>
+
+                <div class="spring-fixed-item">
+                  <span>Packaging</span>
+                  <strong>Jar</strong>
+                </div>
+
+                <div class="spring-fixed-item">
+                  <span>Java</span>
+                  <strong>17</strong>
+                </div>
+
+              </div>
+
+              <div class="field-group spring-field">
+
+                <label for="springGroupId">
+                  Group ID
+                </label>
+
+                <input
+                  id="springGroupId"
+                  name="springGroupId"
+                  type="text"
+                  autocomplete="off"
+                  value="com.example"
+                  placeholder="Ex.: br.com.ecociente"
+                />
+
+                <p class="field-hint">
+                  Exemplo: com.example ou br.com.ecociente.
+                </p>
+
+                <p
+                  id="springGroupIdError"
+                  class="field-error"
+                  aria-live="polite"
+                ></p>
+
+              </div>
+
+              <div class="field-group spring-field">
+
+                <label for="springArtifactId">
+                  Artifact ID
+                </label>
+
+                <input
+                  id="springArtifactId"
+                  name="springArtifactId"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Ex.: cadastro-api"
+                />
+
+                <p class="field-hint">
+                  Por padrão, usamos o nome do repositório.
+                </p>
+
+                <p
+                  id="springArtifactIdError"
+                  class="field-error"
+                  aria-live="polite"
+                ></p>
+
+              </div>
+
+              <div class="field-group spring-field">
+
+                <label for="springPackageName">
+                  Package Name
+                </label>
+
+                <input
+                  id="springPackageName"
+                  name="springPackageName"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Ex.: br.com.ecociente.cadastroapi"
+                />
+
+                <p class="field-hint">
+                  Gerado automaticamente a partir do Group ID e Artifact ID, mas você pode editar.
+                </p>
+
+                <p
+                  id="springPackageNameError"
+                  class="field-error"
+                  aria-live="polite"
+                ></p>
+
+              </div>
+
+              <div class="spring-dependencies">
+
+                <span class="spring-dependencies-title">
+                  Dependências incluídas
+                </span>
+
+                <div class="spring-dependency-list">
+                  <span>✓ Lombok</span>
+                  <span>✓ Spring Boot DevTools</span>
+                  <span>✓ Spring Web</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </fieldset>
+
+          <div class="automatic-config">
+
+            <h2>
+              Configuração automática
+            </h2>
+
+            <ul>
+
+              <li>
+                Template:
+                <strong>
+                  ecociente-repo-template
+                </strong>
+              </li>
+
+              <li>
+                Automação de PR:
+                <strong>
+                  incluída pelo template
+                </strong>
+              </li>
+
+              <li>
+                .gitignore:
+                <strong>
+                  nenhum
+                </strong>
+              </li>
+
+              <li>
+                Licença:
+                <strong>
+                  MIT License
+                </strong>
+              </li>
+
+              <li id="rulesetSummaryLine">
+                Ruleset:
+                <strong>
+                  Proteção Main
+                </strong>
+              </li>
+
+            </ul>
+
+          </div>
+
+          <button
+            id="createButton"
+            class="btn btn-primary btn-large"
+            type="submit"
+            disabled
+          >
+            Criar repositório
+          </button>
+
+        </form>
+
+      </section>
+
+    </main>
+
+    <footer>
+      EcoCiente · Criador de Repositórios
+    </footer>
+
+  </div>
+
+  <div
+    id="infoModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="infoModalTitle"
+  >
+
+    <div
+      class="modal-backdrop"
+      data-close-modal="info"
+    ></div>
+
+    <div class="modal-card modal-card-info">
+
+      <button
+        class="modal-close"
+        type="button"
+        data-close-modal="info"
+        aria-label="Fechar"
+      >
+        ×
+      </button>
+
+      <div class="modal-icon-wrap">
+
+        <img
+          src="assets/info.png"
+          alt=""
+        />
+
+      </div>
+
+      <h2 id="infoModalTitle"></h2>
+
+      <div
+        id="infoModalContent"
+        class="modal-copy"
+      ></div>
+
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-close-modal="info"
+      >
+        Entendi
+      </button>
+
+    </div>
+
+  </div>
+
+  <div
+    id="confirmModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="confirmModalTitle"
+  >
+
+    <div
+      class="modal-backdrop"
+      data-close-modal="confirm"
+    ></div>
+
+    <div class="modal-card">
+
+      <button
+        class="modal-close"
+        type="button"
+        data-close-modal="confirm"
+        aria-label="Fechar"
+      >
+        ×
+      </button>
+
+      <p class="eyebrow">
+        CONFIRMAÇÃO
+      </p>
+
+      <h2 id="confirmModalTitle">
+        Confira antes de criar
+      </h2>
+
+      <p class="modal-subtitle">
+        Revise as informações.
+        Depois da confirmação,
+        o repositório será criado
+        na organização.
+      </p>
+
+      <dl class="summary-list">
+
+        <div>
+          <dt>Nome</dt>
+          <dd id="confirmName"></dd>
+        </div>
+
+        <div>
+          <dt>Padrão de prefixo</dt>
+          <dd id="confirmPrefix"></dd>
+        </div>
+
+        <div>
+          <dt>Descrição</dt>
+          <dd id="confirmDescription"></dd>
+        </div>
+
+        <div>
+          <dt>Visibilidade</dt>
+          <dd id="confirmVisibility"></dd>
+        </div>
+
+        <div id="confirmSpringRow">
+          <dt>API Spring Boot</dt>
+          <dd id="confirmSpringBoot"></dd>
+        </div>
+
+        <div
+          id="confirmSpringDetails"
+          class="summary-spring-details hidden"
+        >
+          <dt>Configuração Spring</dt>
+          <dd id="confirmSpringConfig"></dd>
+        </div>
+
+        <div>
+          <dt>Template</dt>
+          <dd>ecociente-repo-template</dd>
+        </div>
+
+        <div>
+          <dt>Automação de PR</dt>
+          <dd>Sim, herdada do template</dd>
+        </div>
+
+        <div>
+          <dt>.gitignore</dt>
+          <dd>Não</dd>
+        </div>
+
+        <div>
+          <dt>Licença</dt>
+          <dd>MIT License</dd>
+        </div>
+
+        <div>
+          <dt>Proteção Main</dt>
+          <dd id="confirmRuleset"></dd>
+        </div>
+
+      </dl>
+
+      <div
+        id="confirmPrefixWarning"
+        class="notice notice-warning hidden"
+      ></div>
+
+      <div
+        id="confirmPrivateWarning"
+        class="notice notice-warning hidden"
+      ></div>
+
+      <div class="modal-actions">
+
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-close-modal="confirm"
+        >
+          Voltar
+        </button>
+
+        <button
+          id="confirmCreateButton"
+          class="btn btn-primary"
+          type="button"
+        >
+          Confirmar e criar
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div
+    id="resultModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="resultModalTitle"
+  >
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-card">
+
+      <div
+        id="resultBadge"
+        class="result-badge"
+      ></div>
+
+      <h2 id="resultModalTitle"></h2>
+
+      <p
+        id="resultMessage"
+        class="modal-subtitle"
+      ></p>
+
+      <div
+        id="resultDetails"
+        class="result-details"
+      ></div>
+
+      <div class="modal-actions">
+
+        <button
+          id="resultCloseButton"
+          class="btn btn-secondary"
+          type="button"
+        >
+          Fechar
+        </button>
+
+        <a
+          id="repoLinkButton"
+          class="btn btn-primary hidden"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Abrir repositório
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+
+</html>
