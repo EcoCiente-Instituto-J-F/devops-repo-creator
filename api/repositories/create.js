@@ -29,6 +29,10 @@ import {
   generateDevOpsFiles
 } from "../../lib/devops-files.js";
 
+import {
+  integrateRepositoryWithInfrastructure
+} from "../../lib/infra-integration.js";
+
 const NAME_REGEX =
   /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -370,31 +374,32 @@ export default async function handler(
 
 
     if (payload.springBoot.enabled) {
-      const generatedSpringProject = await generateSpringBootProject({
+      const generatedSpringProject =
+        await generateSpringBootProject({
           groupId:
             payload.springBoot.groupId,
-      
+
           artifactId:
             payload.springBoot.artifactId,
-      
+
           packageName:
             payload.springBoot.packageName,
-      
+
           description:
             payload.description
         });
-      
-      
+
+
       const devOpsFiles =
         generateDevOpsFiles({
           artifactId:
             payload.springBoot.artifactId
         });
-      
-      
+
+
       springProject = {
         ...generatedSpringProject,
-      
+
         files: [
           ...generatedSpringProject.files,
           ...devOpsFiles
@@ -406,14 +411,6 @@ export default async function handler(
     /*
      * Sempre cria usando o
      * ecociente-repo-template.
-     *
-     * Assim continuam vindo:
-     *
-     * - LICENSE MIT
-     * - PR Bot
-     * - workflow
-     * - scripts
-     * - arquivos padrão
      */
     const repository =
       await createRepositoryFromTemplate(
@@ -436,10 +433,7 @@ export default async function handler(
     /*
      * Se for API Spring Boot,
      * adicionamos todos os arquivos
-     * em UM ÚNICO commit.
-     *
-     * Isso é bem mais rápido
-     * do que criar arquivo por arquivo.
+     * em um único commit.
      */
     if (springProject) {
       try {
@@ -463,6 +457,7 @@ export default async function handler(
 
         springConfigured =
           true;
+
       } catch (error) {
         console.error(
           "[Spring Boot]",
@@ -483,11 +478,12 @@ export default async function handler(
 
 
     /*
-     * A proteção é criada por último.
+     * Depois do commit inicial do Spring,
+     * protegemos imediatamente a main.
      *
-     * Isso evita que a regra da main
-     * bloqueie o commit inicial do
-     * projeto Spring.
+     * Assim não dependemos da integração
+     * com o devops-infra para proteger
+     * o novo repositório.
      */
     let rulesetApplied =
       false;
@@ -505,6 +501,7 @@ export default async function handler(
 
       rulesetApplied =
         true;
+
     } catch (error) {
       console.error(
         "[Proteção Main]",
@@ -520,6 +517,70 @@ export default async function handler(
       warnings.push(
         `Proteção Main: ${rulesetReason}`
       );
+    }
+
+
+    /*
+     * Se a API Spring foi configurada,
+     * integramos o repositório com
+     * o devops-infra-ecociente.
+     *
+     * Essa etapa nunca escreve diretamente
+     * na main da infraestrutura.
+     */
+    let infrastructureConfigured =
+      false;
+
+    let infrastructureReason =
+      "";
+
+    let infrastructureResult =
+      null;
+
+
+    if (
+      payload.springBoot.enabled &&
+      springConfigured
+    ) {
+      try {
+        infrastructureResult =
+          await integrateRepositoryWithInfrastructure(
+            installationToken,
+            {
+              repositoryName:
+                payload.name,
+
+              version:
+                "1.0.0"
+            }
+          );
+
+
+        infrastructureConfigured =
+          true;
+
+      } catch (error) {
+        console.error(
+          "[Infraestrutura]",
+          error
+        );
+
+
+        infrastructureReason =
+          error.message ||
+          "falha ao integrar o repositório com a infraestrutura central";
+
+
+        warnings.push(
+          `Infraestrutura: ${infrastructureReason}`
+        );
+      }
+
+    } else if (
+      payload.springBoot.enabled
+    ) {
+      infrastructureReason =
+        "Integração não executada porque o projeto Spring Boot não foi configurado.";
     }
 
 
@@ -604,6 +665,61 @@ export default async function handler(
                     "Spring Web"
                   ]
                 }
+              : null
+        },
+
+
+        infrastructure: {
+          requested:
+            payload.springBoot.enabled,
+
+          configured:
+            infrastructureConfigured,
+
+          reason:
+            payload.springBoot.enabled &&
+            !infrastructureConfigured
+              ? infrastructureReason
+              : "",
+
+          repository:
+            infrastructureConfigured
+              ? infrastructureResult.repository
+              : null,
+
+          applicationName:
+            infrastructureConfigured
+              ? infrastructureResult.applicationName
+              : null,
+
+          imageTag:
+            infrastructureConfigured
+              ? infrastructureResult.imageTag
+              : null,
+
+          branch:
+            infrastructureConfigured
+              ? infrastructureResult.branch
+              : null,
+
+          alreadyIntegrated:
+            infrastructureConfigured
+              ? infrastructureResult.alreadyIntegrated
+              : false,
+
+          branchCreated:
+            infrastructureConfigured
+              ? infrastructureResult.branchCreated
+              : false,
+
+          reusedPullRequest:
+            infrastructureConfigured
+              ? infrastructureResult.reusedPullRequest
+              : false,
+
+          pullRequest:
+            infrastructureConfigured
+              ? infrastructureResult.pullRequest
               : null
         },
 
