@@ -33,7 +33,7 @@
   const springPackageNameRegex =
     /^[a-z_][a-z0-9_]*(?:\.[a-z_][a-z0-9_]*)*$/;
 
-  const SPRING_BOOT_VERSION = "4.1.0";
+  const SPRING_BOOT_VERSION = "3.5.4";
   const SPRING_JAVA_VERSION = "19";
 
   const infoContent = {
@@ -949,8 +949,8 @@
             "Build: Gradle",
             "Packaging: Jar",
             `Java: ${SPRING_JAVA_VERSION}`,
-            "DevOps: CI, Docker, Docker Compose e Kubernetes",
-            "Dependências: Lombok, Spring Boot DevTools e Spring Web"
+            "DevOps: CI/CD, Docker, Docker Compose e integra\u00e7\u00e3o autom\u00e1tica com a infraestrutura central",
+            "Depend\u00eancias: Spring Web, Springdoc OpenAPI/Swagger, Lombok e Spring Boot DevTools"
           ].join("\n")
         : "";
 
@@ -1233,6 +1233,49 @@
               "verifique as permissões ou o plano da organização"
             }`
       ];
+
+      if (
+        data.springBoot?.requested &&
+        data.springBoot.configured
+      ) {
+        details.push(
+          `<strong>DevOps:</strong> Docker, Docker Compose, CI/CD e publica\u00e7\u00e3o no Docker Hub configurados`
+        );
+      }
+
+      if (
+        data.infrastructure?.requested
+      ) {
+        if (
+          data.infrastructure.configured
+        ) {
+          details.push(
+            data.infrastructure.alreadyIntegrated
+              ? `<strong>Infraestrutura central:</strong> aplica\u00e7\u00e3o j\u00e1 integrada ao devops-infra-ecociente`
+              : `<strong>Infraestrutura central:</strong> integra\u00e7\u00e3o preparada via Pull Request`
+          );
+
+          if (
+            data.infrastructure.imageTag
+          ) {
+            details.push(
+              `<strong>Imagem inicial:</strong> ecociente/ecociente:${data.infrastructure.imageTag}`
+            );
+          }
+
+          if (
+            data.infrastructure.branch
+          ) {
+            details.push(
+              `<strong>Branch de infraestrutura:</strong> ${data.infrastructure.branch}`
+            );
+          }
+        } else {
+          details.push(
+            `<strong>Infraestrutura central:</strong> integra\u00e7\u00e3o n\u00e3o conclu\u00edda \u2014 ${data.infrastructure.reason || "verifique os avisos"}`
+          );
+        }
+      }
 
       if (
         Array.isArray(
