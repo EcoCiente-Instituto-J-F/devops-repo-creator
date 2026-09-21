@@ -1176,7 +1176,7 @@
         true;
 
       els.springGroupId.value =
-        "com.example";
+        "br.com.ecociente";
 
       els.springArtifactId.value =
         "";
