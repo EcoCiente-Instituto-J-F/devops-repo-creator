@@ -1,4 +1,15 @@
+<p align="center">
+  <img src="assets/card-readme.png" alt="Card do repositório" width="100%">
+</p>
+
 # EcoCiente Repository Creator
+
+![Node.js](https://img.shields.io/badge/Node.js-20+-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-serverless-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![GitHub App](https://img.shields.io/badge/GitHub-App-181717?style=for-the-badge&logo=github&logoColor=white)
+![GitHub repo size](https://img.shields.io/github/repo-size/EcoCiente-Instituto-J-F/devops-repo-creator?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/EcoCiente-Instituto-J-F/devops-repo-creator?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
 Interface web para criar repositórios padronizados na organização `EcoCiente-Instituto-J-F`.
 
@@ -215,3 +226,15 @@ Não coloque no frontend ou no GitHub Pages:
 - qualquer secret administrativo da organização.
 
 O navegador recebe somente uma sessão curta assinada pelo backend. A sessão não contém a Private Key nem um token administrativo do GitHub.
+
+Encontrou uma vulnerabilidade? Siga o [SECURITY.md](SECURITY.md). **Não abra issue pública.**
+
+---
+
+# Contribuindo
+
+Leia o [CONTRIBUTING.md](CONTRIBUTING.md) antes de abrir uma Pull Request. Ao participar, você concorda com o [Código de Conduta](CODE_OF_CONDUCT.md).
+
+# Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE).
